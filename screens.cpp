@@ -1,6 +1,7 @@
 #include "screens.h"
 
 LiquidCrystal_I2C xLCD(0x27, 2, 1, 0, 4, 5, 6, 7, 3, POSITIVE);
+ConvertToCyrLCD xConverter = ConvertToCyrLCD(UTF8);
 
 void vInitScreen() 
 {
@@ -13,34 +14,32 @@ void vInitScreen()
 }
 
 void vMainSqreen() 
-{
-	ConvertToCyrLCD xConverter = ConvertToCyrLCD(UTF8);
-	
+{	
 	xLCD.setCursor(1,0);
 	
 	if (byMode==MODE_SWEEP)
 	{
-		xLCD.print(xConverter.convert(F("Fверх = ")));
+		printLCD(F("Fверх = "));
 	} else {
-		xLCD.print(xConverter.convert(F("Fосн = ")));
+		printLCD(F("Fосн = "));
 	}
 	
-	xLCD.print(xConverter.convert(xFreqRepresentation(lFreqBasicHz)));
+	printLCD(xFreqRepresentation(lFreqBasicHz));
 	
 	xLCD.setCursor(1,1);
-	xLCD.print(xConverter.convert(F("Режим: ")));
-	xLCD.print(xConverter.convert(xModeRepresentation (byMode)));
+	printLCD(F("Режим: "));
+	printLCD(xModeRepresentation (byMode));
 
 	if (byMode==MODE_SWEEP)
 	{
 		xLCD.setCursor(1,2);
-		xLCD.print(xConverter.convert(F("Fнижн = ")));
-		xLCD.print(xConverter.convert(xFreqRepresentation(lFreqLowHz)));
+		printLCD(F("Fнижн = "));
+		printLCD(xFreqRepresentation(lFreqLowHz));
 	} 
 	
 	xLCD.setCursor(1,3);
-	xLCD.print(xConverter.convert(F("Амплитуда: ")));
-	xLCD.print(xConverter.convert(xVoltageRepresentation(lVoltageuV)));	
+	printLCD(F("Амплитуда: "));
+	printLCD(xVoltageRepresentation(lVoltageuV));
 	
 	vBlinkCursor ();
 }
@@ -51,23 +50,22 @@ void vBlinkCursor()
 	xLCD.setCursor(0, byCursorPosition);
 	if (bBlink)
 	{
-		xLCD.print((F(">")));
+		printLCD(F(">"));
 	}
 	else {
-		xLCD.print((F(" ")));
+		printLCD(F(" "));
 	}
 	bBlink = !bBlink;
 }
 
 void vClearRow(byte RowNum) {
 	xLCD.setCursor(0, RowNum);
-	xLCD.print(F("                    "));
+	printLCD(F("                    "));
 }
 
 void vClearAll() {
 	xLCD.clear();
 }
-
 
 static String xFreqRepresentation (long lFreqHz) 
 {
@@ -112,6 +110,10 @@ static String xModeRepresentation (byte byMode)
 		default: xResult = String(F("неопределен"));
 	}	
 	return xResult;
+}
+
+static void printLCD(String xValue) {
+	xLCD.print(xConverter.convert(xValue));
 }
 
 

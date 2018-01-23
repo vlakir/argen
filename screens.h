@@ -14,4 +14,5 @@ void vBlinkCursor ();
 static String xFreqRepresentation (long lFreqHz);
 static String xVoltageRepresentation (long lVoltageuV);
 static String xModeRepresentation (byte byMode);
+static void printLCD(String xValue);
 
