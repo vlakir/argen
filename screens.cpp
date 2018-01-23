@@ -10,9 +10,6 @@ void vInitScreen()
 	xLCD.clear();
 	byCursorPosition = 0;
 	vMainSqreen();
-
-	//pinMode(LED_BUILTIN, OUTPUT);
-
 }
 
 void vMainSqreen() 
@@ -55,13 +52,9 @@ void vBlinkCursor()
 	if (bBlink)
 	{
 		xLCD.print((F(">")));
-		//digitalWrite(LED_BUILTIN, HIGH);
-		//Serial.println("tick");
 	}
 	else {
 		xLCD.print((F(" ")));
-		//digitalWrite(LED_BUILTIN, LOW);
-		//Serial.println("tock");
 	}
 	bBlink = !bBlink;
 }
