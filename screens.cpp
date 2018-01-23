@@ -15,7 +15,7 @@ void vInitScreen()
 
 void vMainSqreen() 
 {	
-	xLCD.setCursor(1,0);
+	_setCursor(1,0);
 	
 	if (byMode==MODE_SWEEP)
 	{
@@ -26,18 +26,18 @@ void vMainSqreen()
 	
 	_printLCD(_xFreqRepresentation(lFreqBasicHz));
 	
-	xLCD.setCursor(1,1);
+	_setCursor(1,1);
 	_printLCD(F("Режим: "));
 	_printLCD(_xModeRepresentation (byMode));
 
 	if (byMode==MODE_SWEEP)
 	{
-		xLCD.setCursor(1,2);
+		_setCursor(1,2);
 		_printLCD(F("Fнижн = "));
 		_printLCD(_xFreqRepresentation(lFreqLowHz));
 	} 
 	
-	xLCD.setCursor(1,3);
+	_setCursor(1,3);
 	_printLCD(F("Амплитуда: "));
 	_printLCD(_xVoltageRepresentation(lVoltageuV));
 	
@@ -47,7 +47,7 @@ void vMainSqreen()
 void vBlinkCursor()
 {
 	static bool bBlink;
-	xLCD.setCursor(0, byCursorPosition);
+	_setCursor(0, byCursorPosition);
 	if (bBlink)
 	{
 		_printLCD(F(">"));
@@ -58,8 +58,8 @@ void vBlinkCursor()
 	bBlink = !bBlink;
 }
 
-void vClearRow(byte RowNum) {
-	xLCD.setCursor(0, RowNum);
+void vClearRow(byte byRowNum) {
+	_setCursor(0, byRowNum);
 	_printLCD(F("                    "));
 }
 
@@ -114,6 +114,11 @@ static String _xModeRepresentation (byte byMode)
 
 static void _printLCD(String xValue) {
 	xLCD.print(xConverter.convert(xValue));
+}
+
+static void _setCursor(byte byColNum, byte byRowNum)
+{
+	xLCD.setCursor(byColNum, byRowNum);
 }
 
 
