@@ -21,10 +21,15 @@
 #define DDS_SET_PERIOD_MS 1000
 #define KEYBOARD_DEADLOCK_MS 100
 
+#define FREQ_BASIC_INIT_VALUE_HZ 1000
+#define FREQ_LOW_INIT_VALUE_HZ 100
+#define OUTPUT_INIT_VALUE_UV 1000
+#define MODE_INIT_VALUE MODE_SWEEP
+#define CURSOR_POS_INIT_VALUE 0
 
 extern long volatile lFreqBasicHz;
 extern long volatile lFreqLowHz;
-extern long volatile lVoltageuV;
+extern long volatile lOutputuV;
 extern byte volatile byMode;
 extern byte volatile byCursorPosition;
 

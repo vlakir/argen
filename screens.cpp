@@ -39,7 +39,7 @@ void vMainSqreen()
 	
 	_setCursor(1,3);
 	_printLCD(F("Амплитуда: "));
-	_printLCD(_xVoltageRepresentation(lVoltageuV));
+	_printLCD(_xVoltageRepresentation(lOutputuV));
 	
 	vBlinkCursor ();
 }

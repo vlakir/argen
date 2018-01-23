@@ -47,7 +47,7 @@ void vMainScreenControl()
 					vClearRow(byCursorPosition);
 					break;
 				case 3:
-					lVoltageuV = _lChangeValue(lVoltageuV, 1);
+					lOutputuV = _lChangeValue(lOutputuV, 1);
 					vClearRow(byCursorPosition);
 					break;
 				default: {}
@@ -71,7 +71,7 @@ void vMainScreenControl()
 				vClearRow(byCursorPosition);
 				break;
 			case 3:
-				lVoltageuV = _lChangeValue(lVoltageuV, -1);
+				lOutputuV = _lChangeValue(lOutputuV, -1);
 				vClearRow(byCursorPosition);
 				break;
 			default: {}

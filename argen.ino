@@ -2,25 +2,25 @@
 
 long volatile lFreqBasicHz;
 long volatile lFreqLowHz;
-long volatile lVoltageuV;
+long volatile lOutputuV;
 byte volatile byMode;
 byte volatile byCursorPosition;
 
-Timer xBlinkCursorTimer, xKeyboardScanTimer, xDDSsetTimer;
+Timer xBlinkCursorTimer, xControlTimer, xDDSsetTimer;
 
 void setup() 
 {
-	lFreqBasicHz = 1000;
-	lFreqLowHz = 100;
-	lVoltageuV = 1000;
-	byMode = MODE_SWEEP;
-	byCursorPosition = 0;
+	lFreqBasicHz = FREQ_BASIC_INIT_VALUE_HZ;
+	lFreqLowHz = FREQ_LOW_INIT_VALUE_HZ;
+	lOutputuV = OUTPUT_INIT_VALUE_UV;
+	byMode = MODE_INIT_VALUE;
+	byCursorPosition = CURSOR_POS_INIT_VALUE;
 		
 	vInitScreen();
 	xBlinkCursorTimer.every(CURSOR_BLINK_PERIOD_MS, vBlinkCursor);
 	
 	vInitKeyboard();
-	xKeyboardScanTimer.every(KEYBOARD_SCAN_PERIOD_MS, vMainScreenControl);
+	xControlTimer.every(KEYBOARD_SCAN_PERIOD_MS, vMainScreenControl);
 
 	
 	vInitDDS();
@@ -34,7 +34,7 @@ void setup()
 void loop() 
 {
 	xBlinkCursorTimer.update();	
-	xKeyboardScanTimer.update();
+	xControlTimer.update();
 	xDDSsetTimer.update();	
 }
 
