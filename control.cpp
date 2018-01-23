@@ -26,13 +26,14 @@ void vMainScreenControl()
 			else
 			{
 				byCursorPosition = 0;
-			}			
+			}
+			vClearAll();
 			break;
 		case KEY_PRESSED_UP:
 			switch (byCursorPosition)
 			{
 				case 0:
-					lFreqBasicHz = lChangeValue(lFreqBasicHz, 1);
+					lFreqBasicHz = _lChangeValue(lFreqBasicHz, 1);
 					vClearRow(byCursorPosition);
 					break;
 				case 1:
@@ -42,11 +43,11 @@ void vMainScreenControl()
 					vClearAll();
 					break;
 				case 2:
-					lFreqLowHz = lChangeValue(lFreqLowHz, 1);
+					lFreqLowHz = _lChangeValue(lFreqLowHz, 1);
 					vClearRow(byCursorPosition);
 					break;
 				case 3:
-					lVoltageuV = lChangeValue(lVoltageuV, 1);
+					lVoltageuV = _lChangeValue(lVoltageuV, 1);
 					vClearRow(byCursorPosition);
 					break;
 				default: {}
@@ -56,7 +57,7 @@ void vMainScreenControl()
 			switch (byCursorPosition)
 			{
 			case 0:
-				lFreqBasicHz = lChangeValue(lFreqBasicHz, -1);
+				lFreqBasicHz = _lChangeValue(lFreqBasicHz, -1);
 				vClearRow(byCursorPosition);
 				break;
 			case 1:
@@ -66,11 +67,11 @@ void vMainScreenControl()
 				vClearAll();
 				break;
 			case 2:
-				lFreqLowHz = lChangeValue(lFreqLowHz, -1);
+				lFreqLowHz = _lChangeValue(lFreqLowHz, -1);
 				vClearRow(byCursorPosition);
 				break;
 			case 3:
-				lVoltageuV = lChangeValue(lVoltageuV, -1);
+				lVoltageuV = _lChangeValue(lVoltageuV, -1);
 				vClearRow(byCursorPosition);
 				break;
 			default: {}
@@ -92,18 +93,18 @@ void vMainScreenControl()
 	
 }
 
-static long lChangeValue(long lValue, long lDivider)
+static long _lChangeValue(long lValue, long lDivider)
 {
 	long lResult = lValue;
 	if (lValue <= (1e7 - 1e5) && lValue>1)
 	{
-		lResult += lDeltaValue(lValue)/lDivider;
+		lResult += _lDeltaValue(lValue)/lDivider;
 	}
 	return lResult;
 }
 
 
-static long lDeltaValue(long lValue)
+static long _lDeltaValue(long lValue)
 {
 	long lResult = 0;
 	

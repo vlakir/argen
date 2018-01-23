@@ -19,27 +19,27 @@ void vMainSqreen()
 	
 	if (byMode==MODE_SWEEP)
 	{
-		printLCD(F("Fверх = "));
+		_printLCD(F("Fверх = "));
 	} else {
-		printLCD(F("Fосн = "));
+		_printLCD(F("Fосн = "));
 	}
 	
-	printLCD(xFreqRepresentation(lFreqBasicHz));
+	_printLCD(_xFreqRepresentation(lFreqBasicHz));
 	
 	xLCD.setCursor(1,1);
-	printLCD(F("Режим: "));
-	printLCD(xModeRepresentation (byMode));
+	_printLCD(F("Режим: "));
+	_printLCD(_xModeRepresentation (byMode));
 
 	if (byMode==MODE_SWEEP)
 	{
 		xLCD.setCursor(1,2);
-		printLCD(F("Fнижн = "));
-		printLCD(xFreqRepresentation(lFreqLowHz));
+		_printLCD(F("Fнижн = "));
+		_printLCD(_xFreqRepresentation(lFreqLowHz));
 	} 
 	
 	xLCD.setCursor(1,3);
-	printLCD(F("Амплитуда: "));
-	printLCD(xVoltageRepresentation(lVoltageuV));
+	_printLCD(F("Амплитуда: "));
+	_printLCD(_xVoltageRepresentation(lVoltageuV));
 	
 	vBlinkCursor ();
 }
@@ -50,24 +50,24 @@ void vBlinkCursor()
 	xLCD.setCursor(0, byCursorPosition);
 	if (bBlink)
 	{
-		printLCD(F(">"));
+		_printLCD(F(">"));
 	}
 	else {
-		printLCD(F(" "));
+		_printLCD(F(" "));
 	}
 	bBlink = !bBlink;
 }
 
 void vClearRow(byte RowNum) {
 	xLCD.setCursor(0, RowNum);
-	printLCD(F("                    "));
+	_printLCD(F("                    "));
 }
 
 void vClearAll() {
 	xLCD.clear();
 }
 
-static String xFreqRepresentation (long lFreqHz) 
+static String _xFreqRepresentation (long lFreqHz) 
 {
 	String xResult;
 	if (lFreqHz < 10000) 
@@ -81,7 +81,7 @@ static String xFreqRepresentation (long lFreqHz)
 	return xResult;
 }
 
-static String xVoltageRepresentation (long lVoltageuV) 
+static String _xVoltageRepresentation (long lVoltageuV) 
 {
 	String xResult;
 	if (lVoltageuV < 1000) 
@@ -98,7 +98,7 @@ static String xVoltageRepresentation (long lVoltageuV)
 	return xResult;
 }
 
-static String xModeRepresentation (byte byMode) 
+static String _xModeRepresentation (byte byMode) 
 {
 	String xResult;
 	switch (byMode) 
@@ -112,7 +112,7 @@ static String xModeRepresentation (byte byMode)
 	return xResult;
 }
 
-static void printLCD(String xValue) {
+static void _printLCD(String xValue) {
 	xLCD.print(xConverter.convert(xValue));
 }
 

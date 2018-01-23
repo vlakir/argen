@@ -5,8 +5,6 @@
 #include "screens.h"
 #include "keyboard.h"
 
-void vInitKeyboard();
 void vMainScreenControl();
-byte byScanKeyboard();
-static long lChangeValue(long lFreq, long lDivider);
-static long lDeltaValue(long lFreq);
+static long _lChangeValue(long lFreq, long lDivider);
+static long _lDeltaValue(long lFreq);

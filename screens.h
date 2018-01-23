@@ -11,8 +11,8 @@ void vMainSqreen();
 void vClearRow(byte RowNum);
 void vClearAll();
 void vBlinkCursor ();
-static String xFreqRepresentation (long lFreqHz);
-static String xVoltageRepresentation (long lVoltageuV);
-static String xModeRepresentation (byte byMode);
-static void printLCD(String xValue);
+static String _xFreqRepresentation (long lFreqHz);
+static String _xVoltageRepresentation (long lVoltageuV);
+static String _xModeRepresentation (byte byMode);
+static void _printLCD(String xValue);
 
