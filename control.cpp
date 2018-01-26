@@ -27,7 +27,7 @@ void vMainScreenControl()
 			{
 				byCursorPosition = 0;
 			}
-			vClearAll();
+			vClearCursorWay();
 			break;
 		case KEY_PRESSED_UP:
 			switch (byCursorPosition)
@@ -40,6 +40,9 @@ void vMainScreenControl()
 					if (byMode<3) {
 						byMode++;
 					}
+					else {
+						byMode = 0;
+					}
 					vClearAll();
 					break;
 				case 2:
@@ -48,7 +51,7 @@ void vMainScreenControl()
 					break;
 				case 3:
 					lOutputuV = _lChangeValue(lOutputuV, 1);
-					vClearRow(byCursorPosition);
+					//vClearRow(byCursorPosition);
 					break;
 				default: {}
 			}						
@@ -58,21 +61,24 @@ void vMainScreenControl()
 			{
 			case 0:
 				lFreqBasicHz = _lChangeValue(lFreqBasicHz, -1);
-				vClearRow(byCursorPosition);
+				//vClearRow(byCursorPosition);
 				break;
 			case 1:
 				if (byMode>0) {
 					byMode--;
 				}
+				else {
+					byMode = 3;
+				}
 				vClearAll();
 				break;
 			case 2:
 				lFreqLowHz = _lChangeValue(lFreqLowHz, -1);
-				vClearRow(byCursorPosition);
+				//vClearRow(byCursorPosition);
 				break;
 			case 3:
 				lOutputuV = _lChangeValue(lOutputuV, -1);
-				vClearRow(byCursorPosition);
+				//vClearRow(byCursorPosition);
 				break;
 			default: {}
 			}
@@ -83,9 +89,12 @@ void vMainScreenControl()
 
 		if (byKeyPressed!= KEY_PRESSED_NONE)
 		{
+			noBlinkCursor = true;
 			vMainSqreen();
 			bKeyboardDeadlock = true;
 			xVdelay.start(KEYBOARD_DEADLOCK_MS);
+		} else {
+			noBlinkCursor = false;
 		}
 	}
 
@@ -96,10 +105,12 @@ void vMainScreenControl()
 static long _lChangeValue(long lValue, long lDivider)
 {
 	long lResult = lValue;
-	if (lValue <= (1e7 - 1e5) && lValue>1)
+	if (lValue <= (1e7 - 1e5) && lValue>=1)
 	{
 		lResult += _lDeltaValue(lValue)/lDivider;
 	}
+	
+	if (lResult == 0) lResult = 1;
 	return lResult;
 }
 

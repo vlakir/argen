@@ -5,6 +5,7 @@ long volatile lFreqLowHz;
 long volatile lOutputuV;
 byte volatile byMode;
 byte volatile byCursorPosition;
+bool volatile noBlinkCursor = false;
 
 Timer xBlinkCursorTimer, xControlTimer, xDDSsetTimer;
 

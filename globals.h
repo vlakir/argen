@@ -32,6 +32,7 @@ extern long volatile lFreqLowHz;
 extern long volatile lOutputuV;
 extern byte volatile byMode;
 extern byte volatile byCursorPosition;
+extern bool volatile noBlinkCursor;
 
 
 

@@ -8,6 +8,9 @@ void vInitScreen()
 	xLCD.begin(20,4); 
 	xLCD.noBlink();
 	xLCD.backlight();	
+
+	//xLCD.noBacklight();
+
 	xLCD.clear();
 	byCursorPosition = 0;
 	vMainSqreen();
@@ -21,25 +24,25 @@ void vMainSqreen()
 	{
 		_printLCD(F("Fверх = "));
 	} else {
-		_printLCD(F("Fосн = "));
+		_printLCD(F("Fосн  = "));
 	}
 	
-	_printLCD(_xFreqRepresentation(lFreqBasicHz));
+	_printLCDwithSpaces(_xFreqRepresentation(lFreqBasicHz), 9);
 	
 	_setCursor(1,1);
 	_printLCD(F("Режим: "));
-	_printLCD(_xModeRepresentation (byMode));
+	_printLCDwithSpaces(_xModeRepresentation (byMode), 8);
 
 	if (byMode==MODE_SWEEP)
 	{
 		_setCursor(1,2);
 		_printLCD(F("Fнижн = "));
-		_printLCD(_xFreqRepresentation(lFreqLowHz));
+		_printLCDwithSpaces(_xFreqRepresentation(lFreqLowHz), 9);
 	} 
 	
 	_setCursor(1,3);
 	_printLCD(F("Амплитуда: "));
-	_printLCD(_xVoltageRepresentation(lOutputuV));
+	_printLCDwithSpaces(_xVoltageRepresentation(lOutputuV), 12);
 	
 	vBlinkCursor ();
 }
@@ -48,12 +51,18 @@ void vBlinkCursor()
 {
 	static bool bBlink;
 	_setCursor(0, byCursorPosition);
-	if (bBlink)
+	if (noBlinkCursor)
 	{
 		_printLCD(F(">"));
 	}
 	else {
-		_printLCD(F(" "));
+		if (bBlink)
+		{
+			_printLCD(F(">"));
+		}
+		else {
+			_printLCD(F(" "));
+		}
 	}
 	bBlink = !bBlink;
 }
@@ -66,6 +75,14 @@ void vClearRow(byte byRowNum) {
 void vClearAll() {
 	xLCD.clear();
 }
+
+void vClearCursorWay() {
+	for (byte i = 0; i <= 3; i++) {
+		_setCursor(0, i);
+		_printLCD(F(" "));
+	}
+}
+
 
 static String _xFreqRepresentation (long lFreqHz) 
 {
@@ -112,8 +129,23 @@ static String _xModeRepresentation (byte byMode)
 	return xResult;
 }
 
-static void _printLCD(String xValue) {
+
+static void _printLCD(String xValue)
+{
 	xLCD.print(xConverter.convert(xValue));
+}
+
+
+static void _printLCDwithSpaces(String xValue, byte byStartPosition) 
+{	
+	//add spaces up to full row
+	String xResult = xConverter.convert(xValue);
+	byte bySpacesLength = (20 - byStartPosition) - xResult.length();
+	for (byte i=1; i<(bySpacesLength); i++)
+	{
+		xResult += " ";
+	}	
+	xLCD.print(xResult);
 }
 
 static void _setCursor(byte byColNum, byte byRowNum)

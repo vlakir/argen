@@ -10,10 +10,12 @@ void vInitScreen();
 void vMainSqreen();
 void vClearRow(byte RowNum);
 void vClearAll();
+void vClearCursorWay();
 void vBlinkCursor ();
 static String _xFreqRepresentation (long lFreqHz);
 static String _xVoltageRepresentation (long lVoltageuV);
 static String _xModeRepresentation (byte byMode);
 static void _printLCD(String xValue);
+static void _printLCDwithSpaces(String xValue, byte byStartPosition);
 static void _setCursor(byte byColNum, byte byRowNum);
 
