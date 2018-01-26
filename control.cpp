@@ -3,71 +3,61 @@
 VirtualDelay xVdelay;
 bool bKeyboardDeadlock;
 
-void vMainScreenControl()
-{
-	
+void vMainScreenControl() {
+
 	DO_ONCE(xVdelay.start(100));
 	byte byKeyPressed = KEY_PRESSED_NONE;
 
-	
+
 	if (!bKeyboardDeadlock) {
 		byKeyPressed = byScanKeyboard();
-		switch (byKeyPressed)
-		{
+		switch (byKeyPressed) {
 		case KEY_PRESSED_MODE:
-			if (byCursorPosition < 3)
-			{
+			if (byCursorPosition < 3) {
 				byCursorPosition++;
-				if ((byCursorPosition == 2) && (byMode != MODE_SWEEP))
-				{
+				if ((byCursorPosition == 2) && (byMode != MODE_SWEEP)) {
 					byCursorPosition++;
 				}
-			}
-			else
-			{
+			} else {
 				byCursorPosition = 0;
 			}
 			vClearCursorWay();
 			break;
 		case KEY_PRESSED_UP:
-			switch (byCursorPosition)
-			{
-				case 0:
-					lFreqBasicHz = _lChangeValue(lFreqBasicHz, 1);
-					vClearRow(byCursorPosition);
-					break;
-				case 1:
-					if (byMode<3) {
-						byMode++;
-					}
-					else {
-						byMode = 0;
-					}
-					vClearAll();
-					break;
-				case 2:
-					lFreqLowHz = _lChangeValue(lFreqLowHz, 1);
-					vClearRow(byCursorPosition);
-					break;
-				case 3:
-					lOutputuV = _lChangeValue(lOutputuV, 1);
-					//vClearRow(byCursorPosition);
-					break;
-				default: {}
-			}						
+			switch (byCursorPosition) {
+			case 0:
+				lFreqBasicHz = _lChangeValue(lFreqBasicHz, 1);
+				vClearRow(byCursorPosition);
+				break;
+			case 1:
+				if (byMode < 3) {
+					byMode++;
+				} else {
+					byMode = 0;
+				}
+				vClearAll();
+				break;
+			case 2:
+				lFreqLowHz = _lChangeValue(lFreqLowHz, 1);
+				vClearRow(byCursorPosition);
+				break;
+			case 3:
+				lOutputuV = _lChangeValue(lOutputuV, 1);
+				//vClearRow(byCursorPosition);
+				break;
+			default: {}
+			}
 			break;
 		case KEY_PRESSED_DOWN:
-			switch (byCursorPosition)
-			{
+			switch (byCursorPosition) {
 			case 0:
 				lFreqBasicHz = _lChangeValue(lFreqBasicHz, -1);
 				//vClearRow(byCursorPosition);
 				break;
 			case 1:
-				if (byMode>0) {
+				if (byMode > 0) {
 					byMode--;
-				}
-				else {
+				} else {
 					byMode = 3;
 				}
 				vClearAll();
@@ -87,8 +77,7 @@ void vMainScreenControl()
 		default: {}
 		}
 
-		if (byKeyPressed!= KEY_PRESSED_NONE)
-		{
+		if (byKeyPressed != KEY_PRESSED_NONE) {
 			noBlinkCursor = true;
 			vMainSqreen();
 			bKeyboardDeadlock = true;
@@ -99,44 +88,34 @@ void vMainScreenControl()
 	}
 
 	if (xVdelay.elapsed()) bKeyboardDeadlock = false;
-	
+
 }
 
-static long _lChangeValue(long lValue, long lDivider)
-{
+static long _lChangeValue(long lValue, long lDivider) {
 	long lResult = lValue;
-	if (lValue <= (1e7 - 1e5) && lValue>=1)
-	{
-		lResult += _lDeltaValue(lValue)/lDivider;
+	if (lValue <= (1e7 - 1e5) && lValue >= 1) {
+		lResult += _lDeltaValue(lValue) / lDivider;
 	}
-	
+
 	if (lResult == 0) lResult = 1;
 	return lResult;
 }
 
 
-static long _lDeltaValue(long lValue)
-{
+static long _lDeltaValue(long lValue) {
 	long lResult = 0;
-	
-	if (lValue<100)
-	{
+
+	if (lValue < 100) {
 		lResult = 1;
-	} else if (lValue < 1000) 
-	{
+	} else if (lValue < 1000) {
 		lResult = 10;
-	} else if (lValue < 1e4) 
-	{
+	} else if (lValue < 1e4) {
 		lResult = 100;
-	} else if (lValue < 1e5) 
-	{
+	} else if (lValue < 1e5) {
 		lResult = 1000;
-	} else if (lValue < 1e6) 
-	{
+	} else if (lValue < 1e6) {
 		lResult = 1e4;
-	}
-	else 
-	{
+	} else {
 		lResult = 1e5;
 	}
 

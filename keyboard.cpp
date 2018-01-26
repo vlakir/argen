@@ -1,7 +1,6 @@
 #include "keyboard.h"
 
-void vInitKeyboard()
-{
+void vInitKeyboard() {
 	pinMode(KEY_UP_IO_PORT, INPUT_PULLUP);
 	pinMode(KEY_DOWN_IO_PORT, INPUT_PULLUP);
 	pinMode(KEY_MODE_IO_PORT, INPUT_PULLUP);

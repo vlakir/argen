@@ -2,8 +2,7 @@
 
 AD9833 gen(10);
 
-void vInitDDS()
-{
+void vInitDDS() {
 	gen.Begin();
 	gen.EnableOutput(false);
 	gen.ApplySignal(SINE_WAVE, REG0, 1000);
@@ -13,9 +12,8 @@ void vInitDDS()
 
 }
 
-void vDDSset()
-{
-	
+void vDDSset() {
+
 }
 
 

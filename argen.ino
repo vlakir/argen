@@ -9,21 +9,20 @@ bool volatile noBlinkCursor = false;
 
 Timer xBlinkCursorTimer, xControlTimer, xDDSsetTimer;
 
-void setup() 
-{
+void setup() {
 	lFreqBasicHz = FREQ_BASIC_INIT_VALUE_HZ;
 	lFreqLowHz = FREQ_LOW_INIT_VALUE_HZ;
 	lOutputuV = OUTPUT_INIT_VALUE_UV;
 	byMode = MODE_INIT_VALUE;
 	byCursorPosition = CURSOR_POS_INIT_VALUE;
-		
+
 	vInitScreen();
 	xBlinkCursorTimer.every(CURSOR_BLINK_PERIOD_MS, vBlinkCursor);
-	
+
 	vInitKeyboard();
 	xControlTimer.every(KEYBOARD_SCAN_PERIOD_MS, vMainScreenControl);
 
-	
+
 	vInitDDS();
 	xDDSsetTimer.every(DDS_SET_PERIOD_MS, vDDSset);
 	//vDDSset();
@@ -32,11 +31,10 @@ void setup()
 }
 
 
-void loop() 
-{
-	xBlinkCursorTimer.update();	
+void loop() {
+	xBlinkCursorTimer.update();
 	xControlTimer.update();
-	xDDSsetTimer.update();	
+	xDDSsetTimer.update();
 }
 
 
