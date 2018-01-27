@@ -1,13 +1,13 @@
 #include "control.h"
 
-VirtualDelay xVdelay;
+VirtualDelay xKeyboardDeadlockDelay, xBackLightOffDelay;
 bool bKeyboardDeadlock;
 
 void vMainScreenControl() {
-
-	DO_ONCE(xVdelay.start(100));
+	DO_ONCE(vBackLightOn());
+	DO_ONCE(xKeyboardDeadlockDelay.start(100));
+	DO_ONCE(xBackLightOffDelay.start(BACKLIGHT_OFF_AFTER_S * 1000));
 	byte byKeyPressed = KEY_PRESSED_NONE;
-
 
 	if (!bKeyboardDeadlock) {
 		byKeyPressed = byScanKeyboard();
@@ -78,17 +78,23 @@ void vMainScreenControl() {
 		}
 
 		if (byKeyPressed != KEY_PRESSED_NONE) {
+			vBackLightOn();
 			noBlinkCursor = true;
 			vMainSqreen();
 			bKeyboardDeadlock = true;
-			xVdelay.start(KEYBOARD_DEADLOCK_MS);
+			xKeyboardDeadlockDelay.start(KEYBOARD_DEADLOCK_MS);
+			vBackLightOn();
+			xBackLightOffDelay.start(BACKLIGHT_OFF_AFTER_S * 1000);
+
 		} else {
 			noBlinkCursor = false;
 		}
 	}
 
-	if (xVdelay.elapsed()) bKeyboardDeadlock = false;
-
+	if (xKeyboardDeadlockDelay.elapsed()) 
+		bKeyboardDeadlock = false;
+	if (xBackLightOffDelay.elapsed()) 
+		vBackLightOff();
 }
 
 static long _lChangeValue(long lValue, long lDivider) {

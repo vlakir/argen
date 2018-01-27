@@ -6,7 +6,7 @@ ConvertToCyrLCD xConverter = ConvertToCyrLCD(UTF8);
 void vInitScreen() {
 	xLCD.begin(20, 4);
 	xLCD.noBlink();
-	xLCD.backlight();
+	//xLCD.backlight();
 
 	//xLCD.noBacklight();
 
@@ -72,6 +72,14 @@ void vClearCursorWay() {
 		_setCursor(0, i);
 		_printLCD(F(" "));
 	}
+}
+
+void vBackLightOff() {
+	xLCD.noBacklight();
+}
+
+void vBackLightOn() {
+	xLCD.backlight();
 }
 
 

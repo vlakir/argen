@@ -12,6 +12,8 @@ void vClearRow(byte RowNum);
 void vClearAll();
 void vClearCursorWay();
 void vBlinkCursor ();
+void vBackLightOff();
+void vBackLightOn();
 static String _xFreqRepresentation (long lFreqHz);
 static String _xVoltageRepresentation (long lVoltageuV);
 static String _xModeRepresentation (byte byMode);
