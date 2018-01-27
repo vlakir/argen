@@ -17,7 +17,7 @@ void vBackLightOn();
 static String _xFreqRepresentation (long lFreqHz);
 static String _xVoltageRepresentation (long lVoltageuV);
 static String _xModeRepresentation (byte byMode);
-static void _printLCD(String xValue);
-static void _printLCDwithSpaces(String xValue, byte byStartPosition);
-static void _setCursor(byte byColNum, byte byRowNum);
+static void _vPrintLCD(String xValue);
+static void _vPrintLCDwithSpaces(String xValue, byte byStartPosition);
+static void _vSetCursor(byte byColNum, byte byRowNum);
 

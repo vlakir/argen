@@ -6,61 +6,57 @@ ConvertToCyrLCD xConverter = ConvertToCyrLCD(UTF8);
 void vInitScreen() {
 	xLCD.begin(20, 4);
 	xLCD.noBlink();
-	//xLCD.backlight();
-
-	//xLCD.noBacklight();
-
 	xLCD.clear();
-	byCursorPosition = 0;
+	cCursorPosition = 0;
 	vMainSqreen();
 }
 
 void vMainSqreen() {
-	_setCursor(1, 0);
+	_vSetCursor(1, 0);
 
-	if (byMode == MODE_SWEEP) {
-		_printLCD(F("Fверх = "));
+	if (cMode == MODE_SWEEP) {
+		_vPrintLCD(F("Fверх = "));
 	} else {
-		_printLCD(F("Fосн  = "));
+		_vPrintLCD(F("Fосн  = "));
 	}
 
-	_printLCDwithSpaces(_xFreqRepresentation(lFreqBasicHz), 9);
+	_vPrintLCDwithSpaces(_xFreqRepresentation(lFreqBasicHz), 9);
 
-	_setCursor(1, 1);
-	_printLCD(F("Режим: "));
-	_printLCDwithSpaces(_xModeRepresentation(byMode), 8);
+	_vSetCursor(1, 1);
+	_vPrintLCD(F("Режим: "));
+	_vPrintLCDwithSpaces(_xModeRepresentation(cMode), 8);
 
-	if (byMode == MODE_SWEEP) {
-		_setCursor(1, 2);
-		_printLCD(F("Fнижн = "));
-		_printLCDwithSpaces(_xFreqRepresentation(lFreqLowHz), 9);
+	if (cMode == MODE_SWEEP) {
+		_vSetCursor(1, 2);
+		_vPrintLCD(F("Fнижн = "));
+		_vPrintLCDwithSpaces(_xFreqRepresentation(lFreqLowHz), 9);
 	}
 
-	_setCursor(1, 3);
-	_printLCD(F("Амплитуда: "));
-	_printLCDwithSpaces(_xVoltageRepresentation(lOutputuV), 12);
+	_vSetCursor(1, 3);
+	_vPrintLCD(F("Амплитуда: "));
+	_vPrintLCDwithSpaces(_xVoltageRepresentation(lOutputuV), 12);
 
 	vBlinkCursor();
 }
 
 void vBlinkCursor() {
 	static bool bBlink;
-	_setCursor(0, byCursorPosition);
-	if (noBlinkCursor) {
-		_printLCD(F(">"));
+	_vSetCursor(0, cCursorPosition);
+	if (bNoBlinkCursor) {
+		_vPrintLCD(F(">"));
 	} else {
 		if (bBlink) {
-			_printLCD(F(">"));
+			_vPrintLCD(F(">"));
 		} else {
-			_printLCD(F(" "));
+			_vPrintLCD(F(" "));
 		}
 	}
 	bBlink = !bBlink;
 }
 
 void vClearRow(byte byRowNum) {
-	_setCursor(0, byRowNum);
-	_printLCD(F("                    "));
+	_vSetCursor(0, byRowNum);
+	_vPrintLCD(F("                    "));
 }
 
 void vClearAll() {
@@ -69,8 +65,8 @@ void vClearAll() {
 
 void vClearCursorWay() {
 	for (byte i = 0; i <= 3; i++) {
-		_setCursor(0, i);
-		_printLCD(F(" "));
+		_vSetCursor(0, i);
+		_vPrintLCD(F(" "));
 	}
 }
 
@@ -122,12 +118,12 @@ static String _xModeRepresentation(byte byMode) {
 }
 
 
-static void _printLCD(String xValue) {
+static void _vPrintLCD(String xValue) {
 	xLCD.print(xConverter.convert(xValue));
 }
 
 
-static void _printLCDwithSpaces(String xValue, byte byStartPosition) {
+static void _vPrintLCDwithSpaces(String xValue, byte byStartPosition) {
 	//add spaces up to full row
 	String xResult = xConverter.convert(xValue);
 	byte bySpacesLength = (20 - byStartPosition) - xResult.length();
@@ -137,7 +133,7 @@ static void _printLCDwithSpaces(String xValue, byte byStartPosition) {
 	xLCD.print(xResult);
 }
 
-static void _setCursor(byte byColNum, byte byRowNum) {
+static void _vSetCursor(byte byColNum, byte byRowNum) {
 	xLCD.setCursor(byColNum, byRowNum);
 }
 

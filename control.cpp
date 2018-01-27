@@ -3,91 +3,33 @@
 VirtualDelay xKeyboardDeadlockDelay, xBackLightOffDelay;
 bool bKeyboardDeadlock;
 
+void vInitControl() {
+	vInitKeyboard();
+	vBackLightOn();
+	xKeyboardDeadlockDelay.start(KEYBOARD_DEADLOCK_MS);
+	xBackLightOffDelay.start(BACKLIGHT_OFF_AFTER_S * 1000);
+}
+
 void vMainScreenControl() {
-	DO_ONCE(vBackLightOn());
-	DO_ONCE(xKeyboardDeadlockDelay.start(100));
-	DO_ONCE(xBackLightOffDelay.start(BACKLIGHT_OFF_AFTER_S * 1000));
 	byte byKeyPressed = KEY_PRESSED_NONE;
 
 	if (!bKeyboardDeadlock) {
 		byKeyPressed = byScanKeyboard();
 		switch (byKeyPressed) {
 		case KEY_PRESSED_MODE:
-			if (byCursorPosition < 3) {
-				byCursorPosition++;
-				if ((byCursorPosition == 2) && (byMode != MODE_SWEEP)) {
-					byCursorPosition++;
-				}
-			} else {
-				byCursorPosition = 0;
-			}
-			vClearCursorWay();
+			_vIfModeKeyPressed();
 			break;
 		case KEY_PRESSED_UP:
-			switch (byCursorPosition) {
-			case 0:
-				lFreqBasicHz = _lChangeValue(lFreqBasicHz, 1);
-				vClearRow(byCursorPosition);
-				break;
-			case 1:
-				if (byMode < 3) {
-					byMode++;
-				} else {
-					byMode = 0;
-				}
-				vClearAll();
-				break;
-			case 2:
-				lFreqLowHz = _lChangeValue(lFreqLowHz, 1);
-				vClearRow(byCursorPosition);
-				break;
-			case 3:
-				lOutputuV = _lChangeValue(lOutputuV, 1);
-				//vClearRow(byCursorPosition);
-				break;
-			default: {}
-			}
+			_vIfUpKeyPressed();
 			break;
 		case KEY_PRESSED_DOWN:
-			switch (byCursorPosition) {
-			case 0:
-				lFreqBasicHz = _lChangeValue(lFreqBasicHz, -1);
-				//vClearRow(byCursorPosition);
-				break;
-			case 1:
-				if (byMode > 0) {
-					byMode--;
-				} else {
-					byMode = 3;
-				}
-				vClearAll();
-				break;
-			case 2:
-				lFreqLowHz = _lChangeValue(lFreqLowHz, -1);
-				//vClearRow(byCursorPosition);
-				break;
-			case 3:
-				lOutputuV = _lChangeValue(lOutputuV, -1);
-				//vClearRow(byCursorPosition);
-				break;
-			default: {}
-			}
+			_vIfDownKeyPressed();
 			break;
-		case KEY_PRESSED_NONE: {}
-		default: {}
+		case KEY_PRESSED_NONE: {
+			_vIfNoKeyPressed();
+			break;
 		}
-
-		if (byKeyPressed != KEY_PRESSED_NONE) {
-			vBackLightOn();
-			noBlinkCursor = true;
-			vMainSqreen();
-			bKeyboardDeadlock = true;
-			xKeyboardDeadlockDelay.start(KEYBOARD_DEADLOCK_MS);
-			vBackLightOn();
-			xBackLightOffDelay.start(BACKLIGHT_OFF_AFTER_S * 1000);
-
-		} else {
-			noBlinkCursor = false;
+		default: {}
 		}
 	}
 
@@ -107,7 +49,6 @@ static long _lChangeValue(long lValue, long lDivider) {
 	return lResult;
 }
 
-
 static long _lDeltaValue(long lValue) {
 	long lResult = 0;
 
@@ -126,4 +67,64 @@ static long _lDeltaValue(long lValue) {
 	}
 
 	return lResult;
+}
+
+static void _vIfModeKeyPressed() {
+	if (cCursorPosition < 3) {
+		cCursorPosition++;
+		if ((cCursorPosition == 2) && (cMode != MODE_SWEEP)) {
+			cCursorPosition++;
+		}
+	} else {
+		cCursorPosition = 0;
+	}
+	vClearCursorWay();
+	_vAfterKeyPress();
+}
+
+static void _vIfUpKeyPressed() {
+	_vUpOrDown(1);
+	_vAfterKeyPress();
+}
+
+static void _vIfDownKeyPressed() {
+	_vUpOrDown(-1);
+	_vAfterKeyPress();
+}
+
+static void _vUpOrDown(char cIncrement) {
+	switch (cCursorPosition) {
+	case 0:
+		lFreqBasicHz = _lChangeValue(lFreqBasicHz, cIncrement);
+		break;
+	case 1:		
+		cMode += cIncrement;
+		if (cMode > 3)
+			cMode = 3;
+		if (cMode < 0)
+			cMode = 0;
+		vClearAll();
+		break;
+	case 2:
+		lFreqLowHz = _lChangeValue(lFreqLowHz, cIncrement);
+		break;
+	case 3:
+		lOutputuV = _lChangeValue(lOutputuV, cIncrement);
+		break;
+	default: {}
+	}
+}
+
+static void _vIfNoKeyPressed() {
+	bNoBlinkCursor = false;
+}
+
+static void _vAfterKeyPress() {
+	vBackLightOn();
+	bNoBlinkCursor = true;
+	vMainSqreen();
+	bKeyboardDeadlock = true;
+	xKeyboardDeadlockDelay.start(KEYBOARD_DEADLOCK_MS);
+	vBackLightOn();
+	xBackLightOffDelay.start(BACKLIGHT_OFF_AFTER_S * 1000);
 }

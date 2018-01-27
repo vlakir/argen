@@ -31,9 +31,9 @@
 extern long volatile lFreqBasicHz;
 extern long volatile lFreqLowHz;
 extern long volatile lOutputuV;
-extern byte volatile byMode;
-extern byte volatile byCursorPosition;
-extern bool volatile noBlinkCursor;
+extern char volatile cMode;
+extern char volatile cCursorPosition;
+extern bool volatile bNoBlinkCursor;
 
 
 
