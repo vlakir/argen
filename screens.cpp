@@ -78,6 +78,63 @@ void vBackLightOn() {
 	xLCD.backlight();
 }
 
+void vBackLightFadeOff() {
+	long lStepTimeMS = BACKLIGHT_FADE_TIME_MS / 11;
+	for (char i = 10; i > 0; i--) {
+		_vBackLightPWM(i, lStepTimeMS);
+	}
+	xLCD.noBacklight();
+}
+
+void vBackLightFadeOn() {
+	long lStepTimeMS = BACKLIGHT_FADE_TIME_MS / 11;
+	for (char i = 1; i <= 10; i++) {
+		_vBackLightPWM(i, lStepTimeMS);
+	}
+	xLCD.backlight();
+}
+
+
+static void _vBackLightPWM(char cBright, long lTimeMS) {
+	
+	byte beOnTimeMS;
+	byte beOffTimeMS;
+	
+	switch (cBright) {
+		case 0: { beOnTimeMS = 0; beOffTimeMS = 5; break; }
+		case 1: { beOnTimeMS = 1; beOffTimeMS = 5; break; }
+		case 2: { beOnTimeMS = 2; beOffTimeMS = 5; break; }
+		case 3: { beOnTimeMS = 3; beOffTimeMS = 5; break; }
+		case 4: { beOnTimeMS = 4; beOffTimeMS = 5; break; }
+		case 5: { beOnTimeMS = 5; beOffTimeMS = 5; break; }
+		case 6: { beOnTimeMS = 5; beOffTimeMS = 4; break; }
+		case 7: { beOnTimeMS = 5; beOffTimeMS = 3; break; }
+		case 8: { beOnTimeMS = 5; beOffTimeMS = 2; break; }
+		case 9: { beOnTimeMS = 5; beOffTimeMS = 1; break; }
+		case 10: { beOnTimeMS = 5; beOffTimeMS = 0; break; }
+		default: { beOnTimeMS = 5; beOffTimeMS = 0; break; }
+	}
+
+	VirtualDelay xDelayOn, xDelayOff, xDelayWhileMS;
+	xDelayOn.start(1);
+	xDelayOff.start(1);
+
+	xDelayWhileMS.start(lTimeMS);
+
+	while (!xDelayWhileMS.elapsed()) {
+		if (xDelayOn.elapsed()) {
+			xLCD.noBacklight();
+			xDelayOff.start(beOffTimeMS);
+		}
+
+		if (xDelayOff.elapsed()) {
+			xLCD.backlight();
+			xDelayOn.start(beOnTimeMS);
+		}
+	}
+
+}
+
 
 static String _xFreqRepresentation(long lFreqHz) {
 	String xResult;

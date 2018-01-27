@@ -36,7 +36,7 @@ void vMainScreenControl() {
 	if (xKeyboardDeadlockDelay.elapsed()) 
 		bKeyboardDeadlock = false;
 	if (xBackLightOffDelay.elapsed()) 
-		vBackLightOff();
+		vBackLightFadeOff();
 }
 
 static long _lChangeValue(long lValue, long lDivider) {
