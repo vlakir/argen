@@ -23,4 +23,3 @@ static void _vPrintLCD(String xValue);
 static void _vPrintLCDwithSpaces(String xValue, byte byStartPosition);
 static void _vSetCursor(byte byColNum, byte byRowNum);
 static void _vBackLightPWM(char cBright, long lTimeMS);
-

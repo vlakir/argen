@@ -193,6 +193,3 @@ static void _vPrintLCDwithSpaces(String xValue, byte byStartPosition) {
 static void _vSetCursor(byte byColNum, byte byRowNum) {
 	xLCD.setCursor(byColNum, byRowNum);
 }
-
-
-
